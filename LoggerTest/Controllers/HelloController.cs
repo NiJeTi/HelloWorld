@@ -4,6 +4,7 @@ using LoggerTest.Services;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace LoggerTest.Controllers
 {
@@ -11,10 +12,14 @@ namespace LoggerTest.Controllers
     [Route("")]
     public class HelloController : Controller
     {
+        private readonly ILogger _logger;
+            
         private readonly NameHolder _nameHolder;
 
-        public HelloController(NameHolder nameHolder)
+        public HelloController(ILogger logger, NameHolder nameHolder)
         {
+            _logger = logger;
+            
             _nameHolder = nameHolder;
         }
 
@@ -23,16 +28,29 @@ namespace LoggerTest.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult SetName([FromQuery] string name)
         {
+            _logger.Log(LogLevel.Information ,$"New name \"{name}\" requested");
+            
             if (!name.All(char.IsLetterOrDigit))
+            {
+                _logger.Log(LogLevel.Warning, $"Recieved name \"{name}\" is invalid");
+                
                 return BadRequest();
+            }
 
             _nameHolder.Name = name;
 
+            _logger.Log(LogLevel.Information, $"New name \"{name}\" accepted");
+            
             return Accepted();
         }
 
         [HttpGet("hello")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Hello() => Ok($"Hello, {_nameHolder.Name}!");
+        public IActionResult Hello()
+        {
+            _logger.Log(LogLevel.Information, $"Greeted {_nameHolder.Name}");
+            
+            return Ok($"Hello, {_nameHolder.Name}!");
+        }
     }
 }
