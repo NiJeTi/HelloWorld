@@ -1,4 +1,4 @@
-﻿namespace LoggerTest.Configurations
+﻿namespace HelloWorld.Api.Configurations
 {
     public class NameHolderConfiguration
     {

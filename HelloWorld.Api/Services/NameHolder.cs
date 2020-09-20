@@ -1,4 +1,4 @@
-﻿namespace LoggerTest.Services
+﻿namespace HelloWorld.Api.Services
 {
     public class NameHolder
     {
@@ -8,5 +8,7 @@
         }
         
         public string Name { get; set; }
+        
+        public string? LastProposedName { get; set; }
     }
 }
