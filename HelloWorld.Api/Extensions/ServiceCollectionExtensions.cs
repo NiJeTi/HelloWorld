@@ -1,10 +1,10 @@
-﻿using LoggerTest.Configurations;
-using LoggerTest.Services;
+﻿using HelloWorld.Api.Configurations;
+using HelloWorld.Api.Services;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LoggerTest.Extensions
+namespace HelloWorld.Api.Extensions
 {
     public static class ServiceCollectionExtensions
     {
